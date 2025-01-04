@@ -14,16 +14,21 @@ def main():
     print(f'Screen height: {720}')
     Clock = pygame.time.Clock()
     dt = 0
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
     p = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
     while(True):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         pygame.Surface.fill(window, (0, 0, 0))
-
-        p.draw(window)
-        pygame.display.flip()
         dt = Clock.tick(60)/1000
+        for i in drawable:
+            i.draw(window)
+        for i in updateable:
+            i.update(dt)
+        pygame.display.flip()
 
 if __name__ == "__main__":
     main()
